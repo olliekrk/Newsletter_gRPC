@@ -36,4 +36,5 @@ message NewsRequest {
 
 service NewsletterService {
   rpc fetchNews(NewsRequest) returns (stream News) {}
+  rpc fetchManyNews(stream NewsRequest) returns (stream News) {}
 }

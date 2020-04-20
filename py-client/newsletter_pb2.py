@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='newsletter',
   syntax='proto3',
   serialized_options=b'\n\027com.olliekrk.newsletterB\017NewsletterProtoP\001',
-  serialized_pb=b'\n\x10newsletter.proto\x12\nnewsletter\"~\n\x04News\x12\"\n\x04type\x18\x01 \x01(\x0e\x32\x14.newsletter.NewsType\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\x12\r\n\x05views\x18\x03 \x01(\x03\x12\x32\n\x0e\x63ommentSection\x18\x04 \x01(\x0b\x32\x1a.newsletter.CommentSection\"N\n\x0e\x43ommentSection\x12\x15\n\radministrated\x18\x01 \x01(\x08\x12%\n\x08\x63omments\x18\x02 \x03(\x0b\x32\x13.newsletter.Comment\")\n\x07\x43omment\x12\x0e\n\x06\x61uthor\x18\x01 \x01(\t\x12\x0e\n\x06rating\x18\x02 \x01(\x03\"G\n\x0bNewsRequest\x12\"\n\x04type\x18\x01 \x01(\x0e\x32\x14.newsletter.NewsType\x12\x14\n\x0csearchPhrase\x18\x02 \x01(\t*6\n\x08NewsType\x12\x0c\n\x08\x46ORECAST\x10\x00\x12\x0b\n\x07\x41RTICLE\x10\x01\x12\x0f\n\x0b\x44OCUMENTARY\x10\x02\x32O\n\x11NewsletterService\x12:\n\tfetchNews\x12\x17.newsletter.NewsRequest\x1a\x10.newsletter.News\"\x00\x30\x01\x42,\n\x17\x63om.olliekrk.newsletterB\x0fNewsletterProtoP\x01\x62\x06proto3'
+  serialized_pb=b'\n\x10newsletter.proto\x12\nnewsletter\"~\n\x04News\x12\"\n\x04type\x18\x01 \x01(\x0e\x32\x14.newsletter.NewsType\x12\x0f\n\x07\x63ontent\x18\x02 \x01(\t\x12\r\n\x05views\x18\x03 \x01(\x03\x12\x32\n\x0e\x63ommentSection\x18\x04 \x01(\x0b\x32\x1a.newsletter.CommentSection\"N\n\x0e\x43ommentSection\x12\x15\n\radministrated\x18\x01 \x01(\x08\x12%\n\x08\x63omments\x18\x02 \x03(\x0b\x32\x13.newsletter.Comment\")\n\x07\x43omment\x12\x0e\n\x06\x61uthor\x18\x01 \x01(\t\x12\x0e\n\x06rating\x18\x02 \x01(\x03\"G\n\x0bNewsRequest\x12\"\n\x04type\x18\x01 \x01(\x0e\x32\x14.newsletter.NewsType\x12\x14\n\x0csearchPhrase\x18\x02 \x01(\t*6\n\x08NewsType\x12\x0c\n\x08\x46ORECAST\x10\x00\x12\x0b\n\x07\x41RTICLE\x10\x01\x12\x0f\n\x0b\x44OCUMENTARY\x10\x02\x32\x91\x01\n\x11NewsletterService\x12:\n\tfetchNews\x12\x17.newsletter.NewsRequest\x1a\x10.newsletter.News\"\x00\x30\x01\x12@\n\rfetchManyNews\x12\x17.newsletter.NewsRequest\x1a\x10.newsletter.News\"\x00(\x01\x30\x01\x42,\n\x17\x63om.olliekrk.newsletterB\x0fNewsletterProtoP\x01\x62\x06proto3'
 )
 
 _NEWSTYPE = _descriptor.EnumDescriptor(
@@ -268,13 +268,22 @@ _NEWSLETTERSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=412,
-  serialized_end=491,
+  serialized_start=413,
+  serialized_end=558,
   methods=[
   _descriptor.MethodDescriptor(
     name='fetchNews',
     full_name='newsletter.NewsletterService.fetchNews',
     index=0,
+    containing_service=None,
+    input_type=_NEWSREQUEST,
+    output_type=_NEWS,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='fetchManyNews',
+    full_name='newsletter.NewsletterService.fetchManyNews',
+    index=1,
     containing_service=None,
     input_type=_NEWSREQUEST,
     output_type=_NEWS,

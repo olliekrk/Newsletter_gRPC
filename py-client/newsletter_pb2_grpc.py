@@ -18,6 +18,11 @@ class NewsletterServiceStub(object):
                 request_serializer=newsletter__pb2.NewsRequest.SerializeToString,
                 response_deserializer=newsletter__pb2.News.FromString,
                 )
+        self.fetchManyNews = channel.stream_stream(
+                '/newsletter.NewsletterService/fetchManyNews',
+                request_serializer=newsletter__pb2.NewsRequest.SerializeToString,
+                response_deserializer=newsletter__pb2.News.FromString,
+                )
 
 
 class NewsletterServiceServicer(object):
@@ -29,11 +34,22 @@ class NewsletterServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
+    def fetchManyNews(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file"""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
 
 def add_NewsletterServiceServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'fetchNews': grpc.unary_stream_rpc_method_handler(
                     servicer.fetchNews,
+                    request_deserializer=newsletter__pb2.NewsRequest.FromString,
+                    response_serializer=newsletter__pb2.News.SerializeToString,
+            ),
+            'fetchManyNews': grpc.stream_stream_rpc_method_handler(
+                    servicer.fetchManyNews,
                     request_deserializer=newsletter__pb2.NewsRequest.FromString,
                     response_serializer=newsletter__pb2.News.SerializeToString,
             ),
@@ -58,6 +74,22 @@ class NewsletterService(object):
             timeout=None,
             metadata=None):
         return grpc.experimental.unary_stream(request, target, '/newsletter.NewsletterService/fetchNews',
+            newsletter__pb2.NewsRequest.SerializeToString,
+            newsletter__pb2.News.FromString,
+            options, channel_credentials,
+            call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def fetchManyNews(request_iterator,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.stream_stream(request_iterator, target, '/newsletter.NewsletterService/fetchManyNews',
             newsletter__pb2.NewsRequest.SerializeToString,
             newsletter__pb2.News.FromString,
             options, channel_credentials,

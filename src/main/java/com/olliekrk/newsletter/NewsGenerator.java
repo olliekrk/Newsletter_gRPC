@@ -1,6 +1,8 @@
 package com.olliekrk.newsletter;
 
 import com.github.javafaker.Faker;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +13,7 @@ import java.util.stream.Stream;
 
 @Slf4j
 public class NewsGenerator {
-    private static final int COMMENTS_PER_NEWS = 3;
+    private static final int MAX_COMMENTS_PER_NEWS = 5;
     private static final Faker faker = Faker.instance();
     private static final Random random = new Random();
     private final PublishSubject<News> newsSubject;
@@ -23,10 +25,11 @@ public class NewsGenerator {
                 .subscribeWith(PublishSubject.create());
     }
 
-    public Observable<News> getNews(NewsRequest request) {
+    public Flowable<News> getNews(NewsRequest request) {
         return newsSubject
                 .filter(news -> news.getType().equals(request.getType()))
-                .filter(news -> news.getContent().contains(request.getSearchPhrase()));
+                .filter(news -> news.getContent().contains(request.getSearchPhrase()))
+                .toFlowable(BackpressureStrategy.LATEST);
     }
 
     public static News randomNews() {
@@ -46,7 +49,7 @@ public class NewsGenerator {
     private static CommentSection randomComments() {
         var commentsSection = CommentSection.newBuilder();
         Stream.generate(NewsGenerator::randomComment)
-                .limit(COMMENTS_PER_NEWS)
+                .limit(random.nextInt(MAX_COMMENTS_PER_NEWS))
                 .forEach(commentsSection::addComments);
         return commentsSection.build();
     }
@@ -57,5 +60,4 @@ public class NewsGenerator {
                 .setRating(random.nextInt())
                 .build();
     }
-
 }
