@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.olliekrk.newsletter";
+option java_outer_classname = "NewsletterProto";
+
+package newsletter;
+
+enum NewsType {
+  FORECAST = 0;
+  ARTICLE = 1;
+  DOCUMENTARY = 2;
+}
+
+message News {
+  NewsType type = 1;
+  string content = 2;
+  int64 views = 3;
+  CommentSection commentSection = 4;
+}
+
+message CommentSection {
+  bool administrated = 1;
+  repeated Comment comments = 2;
+}
+
+message Comment {
+  string author = 1;
+  int64 rating = 2;
+}
+
+message NewsRequest {
+  NewsType type = 1;
+  string searchPhrase = 2;
+}
+
+service NewsletterService {
+  rpc fetchNews(NewsRequest) returns (stream News) {}
+}
