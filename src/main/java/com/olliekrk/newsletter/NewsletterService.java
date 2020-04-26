@@ -16,11 +16,8 @@ public class NewsletterService extends NewsletterServiceGrpc.NewsletterServiceIm
     @Override
     public void fetchNews(NewsRequest request, StreamObserver<News> responseObserver) {
         log.info("Subscription for news: " + request.toString());
-        generator.getNews(request).subscribe(
-                responseObserver::onNext,
-                responseObserver::onError,
-                responseObserver::onCompleted
-        );
+        generator.getNews(request)
+                .subscribe(responseObserver::onNext, responseObserver::onError, responseObserver::onCompleted);
     }
 
     @Override
@@ -28,9 +25,7 @@ public class NewsletterService extends NewsletterServiceGrpc.NewsletterServiceIm
         log.info("Bulk subscription");
         var newsObserver = (ServerCallStreamObserver<News>) responseObserver;
         var newsRequestObserver = new RequestObserver<NewsRequest>();
-        newsRequestObserver
-                .flatMap(generator::getNews)
-                .subscribe(new NotifyingSubscriber<>(newsObserver));
+        newsRequestObserver.flatMap(generator::getNews).subscribe(new NotifyingSubscriber<>(newsObserver));
         return newsRequestObserver;
     }
 }

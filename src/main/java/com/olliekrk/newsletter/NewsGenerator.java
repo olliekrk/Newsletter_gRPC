@@ -36,7 +36,7 @@ public class NewsGenerator {
         return News.newBuilder()
                 .setType(randomType())
                 .setCommentSection(randomComments())
-                .setContent(faker.friends().quote())
+                .setContent(faker.book().title())
                 .setViews(random.nextLong())
                 .build();
     }
